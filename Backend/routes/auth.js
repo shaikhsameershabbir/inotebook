@@ -4,6 +4,7 @@ const User = require("../models/User.js");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const fetchUser = require("../middleware/fetchUser.js");
 // create user using POST "api/auth/createuser" no Login require
 router.post(
   "/createuser",
@@ -51,7 +52,7 @@ router.post(
 // Authenticate  user using POST "api/auth/login" no Login require
 router.post(
   "/login",
-
+  [body("emai").isEmpty(), body("password").exists()],
   async (req, res) => {
     console.log(req.body);
     let { email, password } = req.body;
@@ -64,9 +65,7 @@ router.post(
     // Check whether user exist or not in db
     let user = await User.findOne({ email });
     if (!user) {
-      return res
-        .status(400)
-        .json({ email: "Email Already exists Please Log in !" });
+      return res.status(400).json({ email: "Invalid username or password!" });
     }
 
     //  compair password
@@ -90,5 +89,16 @@ router.post(
     res.json({ AuthToken });
   }
 );
+// Het  loggedin users Details  POST "api/auth/getuser"  Login require
 
+router.post("/getuser", fetchUser, async (req, res) => {
+  try {
+    userId = req.user.id;
+    const user = await User.findById(userId).select("-password");
+    res.send(user)
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Internal Server Error ");
+  }
+});
 module.exports = router;
