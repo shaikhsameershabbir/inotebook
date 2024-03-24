@@ -1,7 +1,12 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const NoteSchema = new Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
+
   title: {
     type: String,
     require: true,
@@ -16,10 +21,12 @@ const NoteSchema = new Schema({
     require: true,
     default: "General",
   },
-  date: {
-    type: date,
-    require: Date.now,
-  },
+  // date: {
+  //   type: date,
+  //   require: Date.now(),
+  // },
 });
 
-module.exports = mongoose.model("notes", NoteSchema);
+const Notes = mongoose.model("notes", NoteSchema);
+
+module.exports = Notes;
