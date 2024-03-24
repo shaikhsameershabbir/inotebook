@@ -1,13 +1,16 @@
-const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
-const uri = "mongodb://localhost:27017/";
-const client = new MongoClient(uri);
-async function connectToMongo() {
+const { mongoose } = require("mongoose");
+
+// Replace the uri string with your connection string.
+const mongoUri = "mongodb://127.0.0.1:27017/inotebook";
+
+const connectToMongo = async () => {
   try {
-    console.log("connected Successfully ");
-  } catch {
-    console.log("Mongo error - ", error);
+    await mongoose.connect(mongoUri);
+    console.log("connected Sccusfully ");
+  } catch (error) {
+    console.log(error);
   }
-}
+};
 
 module.exports = connectToMongo;
