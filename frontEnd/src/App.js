@@ -3,19 +3,23 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Im
 import Navbar from "./componunts/Navbar";
 import Home from "./componunts/Home";
 import About from "./componunts/About";
+import NoteState from "./context/notes/NotesState";
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        {" "}
-        {/* Use Routes instead of Switch */}
-        <Route exact path="/" element={<Home />} /> {/* Define your routes */}
-        <Route exact path="/About" element={<About />} />{" "}
-        {/* Define your routes */}
-      </Routes>
-    </Router>
+    <>
+      <NoteState>
+        <Router>
+          <Navbar />
+          <div className="container">
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/About" element={<About />} />{" "}
+            </Routes>
+          </div>
+        </Router>
+      </NoteState>
+    </>
   );
 }
 
