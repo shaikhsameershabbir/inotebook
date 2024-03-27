@@ -14,9 +14,10 @@ router.post(
   fetchUser,
   [
     body("title", "Invalid Title ").isLength({ min: 5 }),
-    body("discription", "Invalid Discription").isLength({ min: 5 }),
+    // body("discription", "Invalid Discription").isLength({ min: 5 }),
   ],
   async (req, res) => {
+    console.log(req.body);
     // If error then return bad request with error
     const result = validationResult(req);
     if (!result.isEmpty()) {
@@ -31,6 +32,7 @@ router.post(
     });
     const saveNote = await note.save();
     const notes = await Notes.find({ user: req.user.id });
+    console.log("-------------", notes);
     res.json(notes);
   }
 );
