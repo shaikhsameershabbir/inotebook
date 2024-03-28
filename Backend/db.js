@@ -1,16 +1,11 @@
-const { MongoClient } = require("mongodb");
-const { mongoose } = require("mongoose");
+const mongoose = require('mongoose');
 
-// Replace the uri string with your connection string.
-const mongoUri = "mongodb://127.0.0.1:27017/inotebook";
+const mongoURI = "mongodb://localhost:27017/inotebook?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
 
-const connectToMongo = async () => {
-  try {
-    await mongoose.connect(mongoUri);
-    console.log("connected Sccusfully ");
-  } catch (error) {
-    console.log(error);
-  }
-};
+const connectToMongo = ()=>{
+    mongoose.connect(mongoURI, ()=>{
+        console.log("Connected to Mongo Successfully");
+    })
+}
 
 module.exports = connectToMongo;
